@@ -46,7 +46,7 @@ export const Scroller: FunctionComponent = () => {
                     className="btn btn-block btn-outline-dark"
                     onClick={(): void => executeScript(scrollToTopScript)}
                 >
-                    Scroll To Top
+                    Scroll To Tope
                 </button>
                 <button
                     className="btn btn-block btn-outline-dark"
