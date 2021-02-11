@@ -9,4 +9,6 @@ S /Users/smerp/GitHub/react-typescript-web-extension-starter/node_modules/@rescr
 B /Users/smerp/GitHub/react-typescript-web-extension-starter/node_modules/@rescript/react/lib/ocaml
 S src/logic
 B lib/bs/src/logic
+S src/toolbar
+B lib/bs/src/toolbar
 ####BSB GENERATED: NO EDIT}
