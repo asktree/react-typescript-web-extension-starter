@@ -10,7 +10,9 @@
         "lint": "eslint --fix -c ./.eslintrc.js \"src/**/*.ts*\"",
         "prettify": "prettier --write \"src/**/*.ts*\"",
         "storybook": "start-storybook -p 6006",
-        "build-storybook": "build-storybook"
+        "build-storybook": "build-storybook",
+        "re:build": "bsb -make-world -clean-world",
+        "re:watch": "bsb -make-world -clean-world -w"
     },
     "repository": {
         "type": "git",
@@ -54,11 +56,13 @@
         "babel-core": "^6.26.3",
         "babel-jest": "^26.5.2",
         "babel-loader": "^8.1.0",
+        "bs-platform": "8.4.2",
         "css-loader": "^4.3.0",
         "eslint": "^7.11.0",
         "eslint-config-prettier": "^6.12.0",
         "eslint-plugin-prettier": "^3.1.4",
         "eslint-plugin-react": "^7.21.4",
+        "gentype": "^3.42.0",
         "jest": "^26.5.3",
         "jest-css-modules": "^2.1.0",
         "node-sass": "^4.14.1",
@@ -77,6 +81,7 @@
         "webpack-merge": "^4.2.2"
     },
     "dependencies": {
+        "@rescript/react": "^0.10.1",
         "bootstrap": "^4.5.2",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",

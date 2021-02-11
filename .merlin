@@ -1,0 +1,12 @@
+####{BSB GENERATED: NO EDIT
+B lib/bs
+FLG -open ProgrammableAttention
+FLG -ppx '/Users/smerp/GitHub/react-typescript-web-extension-starter/node_modules/bs-platform/darwin/bsc.exe -as-ppx -bs-jsx 3'
+S /Users/smerp/GitHub/react-typescript-web-extension-starter/node_modules/bs-platform/lib/ocaml
+B /Users/smerp/GitHub/react-typescript-web-extension-starter/node_modules/bs-platform/lib/ocaml
+FLG -w +a-4-9-20-40-41-42-50-61-102
+S /Users/smerp/GitHub/react-typescript-web-extension-starter/node_modules/@rescript/react/lib/ocaml
+B /Users/smerp/GitHub/react-typescript-web-extension-starter/node_modules/@rescript/react/lib/ocaml
+S src/logic
+B lib/bs/src/logic
+####BSB GENERATED: NO EDIT}

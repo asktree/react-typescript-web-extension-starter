@@ -1,0 +1,38 @@
+{
+  "gentypeconfig": {
+    "language": "typescript",
+    "module": "es6",
+    "importPath": "relative",
+    "shims": {
+      "Js": "Js",
+      "React": "ReactShim",
+      "ReactEvent": "ReactEvent",
+      "ReasonPervasives": "ReasonPervasives",
+      "ReasonReact": "ReactShim"
+    },
+    "debug": {
+      "all": false
+    },
+    "exportInterfaces": false,
+  },
+  "name": "programmable-attention",
+  "bsc-flags": ["-bs-super-errors"],
+  "sources": [
+    {
+      "dir": "src",
+      "subdirs": true
+    }
+  ],
+  "package-specs": [
+    {
+      "module": "es6",
+      "in-source": true
+    }
+  ],
+  "suffix": ".bs.js",
+  "namespace": true,
+  "reason": { "react-jsx": 3 },
+  "bs-dependencies": ["@rescript/react"],
+  "ppx-flags": [],
+  "refmt": 3
+}

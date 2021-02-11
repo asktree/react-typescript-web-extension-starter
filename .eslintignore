@@ -1,3 +1,5 @@
 node_modules/*
 *.snap
 dist/*
+*bs.js
+*gen.tsx
