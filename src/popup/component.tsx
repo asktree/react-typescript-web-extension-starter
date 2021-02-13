@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
-import { Hello } from "@src/components/hello";
+import { Hello } from "./Hello";
 import { browser } from "webextension-polyfill-ts";
-import { Scroller } from "@src/components/scroller";
+import { Scroller } from "./Scroller";
 import "./styles.scss";
 
 // // // //
