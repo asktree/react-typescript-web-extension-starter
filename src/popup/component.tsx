@@ -3,6 +3,7 @@ import { Hello } from "./Hello";
 import { browser } from "webextension-polyfill-ts";
 import { Scroller } from "./Scroller";
 import "./styles.scss";
+import CleanTheSlate from "./CleanTheSlate";
 
 // // // //
 
@@ -18,7 +19,11 @@ export const Popup: FunctionComponent = () => {
             <div className="container mx-4 my-4">
                 <Hello />
                 <hr />
+                fart boyz
                 <Scroller />
+                <hr />
+                aaa
+                <CleanTheSlate />
             </div>
         </div>
     );

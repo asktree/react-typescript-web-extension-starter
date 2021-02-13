@@ -5,14 +5,15 @@
     "main": "index.js",
     "scripts": {
         "build": "webpack --config webpack.prod.js",
-        "dev": "webpack -w --config webpack.dev.js",
+        "dev": "concurrently \"npm:wp:dev\" \"npm:re:dev\"",
         "test": "jest --config=jest.config.js",
         "lint": "eslint --fix -c ./.eslintrc.js \"src/**/*.ts*\"",
         "prettify": "prettier --write \"src/**/*.ts*\"",
         "storybook": "start-storybook -p 6006",
         "build-storybook": "build-storybook",
         "re:build": "bsb -make-world -clean-world",
-        "re:watch": "bsb -make-world -clean-world -w"
+        "re:dev": "bsb -make-world -clean-world -w",
+        "wp:dev": "webpack -w --config webpack.dev.js"
     },
     "repository": {
         "type": "git",
@@ -57,6 +58,7 @@
         "babel-jest": "^26.5.2",
         "babel-loader": "^8.1.0",
         "bs-platform": "8.4.2",
+        "concurrently": "^5.3.0",
         "css-loader": "^4.3.0",
         "eslint": "^7.11.0",
         "eslint-config-prettier": "^6.12.0",
@@ -85,6 +87,7 @@
         "bootstrap": "^4.5.2",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
-        "react-test-renderer": "^16.13.1"
+        "react-test-renderer": "^16.13.1",
+        "styled-components": "^5.2.1"
     }
 }
