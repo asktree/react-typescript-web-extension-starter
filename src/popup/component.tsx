@@ -19,10 +19,8 @@ export const Popup: FunctionComponent = () => {
             <div className="container mx-4 my-4">
                 <Hello />
                 <hr />
-                fart boyz
                 <Scroller />
                 <hr />
-                aaa
                 <CleanTheSlate />
             </div>
         </div>
