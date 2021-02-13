@@ -16,5 +16,11 @@
         "48": "icon-48.png",
         "128": "icon-128.png"
     },
-    "permissions": ["tabs", "activeTab", "notifications", "http://*/", "https://*/"]
+    "permissions": ["tabs", "activeTab", "notifications", "storage", "http://*/", "https://*/"], 
+    "content_scripts": [
+        {
+          "matches": ["http://*/*","https://*/*"],
+          "js": ["js/content.js"]
+        }
+      ]
 }
