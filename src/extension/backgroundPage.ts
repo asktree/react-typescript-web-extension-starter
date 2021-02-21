@@ -1,5 +1,5 @@
 import { browser } from "webextension-polyfill-ts";
-import Message from "./message";
+import { sendTabAction } from "./actions";
 
 const handle = (promise: Promise<any>) => {
   return promise
@@ -28,7 +28,7 @@ browser.runtime.onMessage.addListener(
             return;
           }
           const [resp, respErr] = await handle(
-            browser.tabs.sendMessage(tab.id, Message.cleanTheSlate)
+            sendTabAction(tab.id, "getScrollDepth")
           );
           if (respErr) throw new Error(JSON.stringify(respErr));
 

@@ -5,14 +5,14 @@ import { Scroller } from "./Scroller";
 import "./styles.scss";
 import CleanTheSlate from "./CleanTheSlate";
 import ShowToolbar from "./ShowToolbar";
-import Message from "@src/extension/message";
+import { sendAction } from "@src/extension/actions";
 
 // // // //
 
 export const Popup: FunctionComponent = () => {
   // Sends the `popupMounted` event
   React.useEffect(() => {
-    browser.runtime.sendMessage(Message.popupMounted);
+    sendAction("PopupMounted");
   }, []);
 
   // Renders the component tree
