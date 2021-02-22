@@ -12,7 +12,10 @@ const Content: FC = () => {
         case "getScrollDepth": {
           console.log("collecting info on this tab!");
           return {
-            insert: { scrollDepth: 1 },
+            insert: {
+              scrollHeight: document.documentElement.scrollHeight,
+              scrollWidth: document.documentElement.scrollHeight,
+            },
           };
         }
       }
