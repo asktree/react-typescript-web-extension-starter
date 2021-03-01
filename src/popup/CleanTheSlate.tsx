@@ -1,7 +1,7 @@
 import { log } from "@src/util";
 import React, { FC } from "react";
 import { browser } from "webextension-polyfill-ts";
-import { sendAction } from "@src/extension/actions";
+import { BackgroundAction } from "@src/extension/actions";
 
 const CleanTheSlate: FC = () => {
   const a = 1;
@@ -9,17 +9,24 @@ const CleanTheSlate: FC = () => {
     <>
       <button
         onClick={async () => {
-          sendAction("IngestTab");
+          BackgroundAction.send("IngestActiveTab");
         }}
       >
         Ingest this tab
       </button>
       <button
         onClick={async () => {
-          sendAction("IngestWindow");
+          BackgroundAction.send("IngestAllTabs");
         }}
       >
-        Ingest all tabs
+        Ingest each tab
+      </button>
+      <button
+        onClick={async () => {
+          BackgroundAction.send("IngestWindow");
+        }}
+      >
+        Ingest window
       </button>
     </>
   );

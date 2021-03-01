@@ -2,31 +2,33 @@ import { TabSnapshot } from "@src/data/client";
 import { browser } from "webextension-polyfill-ts";
 import * as T from "fp-ts/Task";
 
-export type BackgroundAction =
-  | "PopupMounted"
-  | "MountToolBar"
-  | "IngestWindow"
-  | "IngestTab";
+export namespace BackgroundAction {
+  export type Message =
+    | "PopupMounted"
+    | "MountToolBar"
+    | "IngestWindow"
+    | "IngestActiveTab"
+    | "IngestAllTabs";
 
-// This is how you change the state of the app
-export const sendAction = (action: BackgroundAction) =>
-  browser.runtime.sendMessage(action);
+  // This is how you change the state of the app
+  export const send = (msg: Message) => browser.runtime.sendMessage(msg);
+}
 
 export namespace TabAction {
   export type Message = "GetScrollDepth" | "GetHello";
 
   type Action<msg extends Message, result extends any | void> = {
-    send: (tabId: number, msg: msg) => T.Task<Promise<result>>;
+    send: (tabId: number, msg: msg) => Promise<result>;
     listen: (msg: msg) => Promise<result>;
   };
 
-  type actions = Action<"GetScrollDepth", Pick<TabSnapshot, "scrollPosition">> &
+  type actions = Action<
+    "GetScrollDepth",
+    Pick<TabSnapshot.t, "scrollPosition">
+  > &
     Action<"GetHello", "hello">;
 
-  export const send: actions["send"] = (
-    tabId: number,
-    msg: TabAction.Message
-  ) => T.of(browser.tabs.sendMessage(tabId, msg));
+  export const send: actions["send"] = browser.tabs.sendMessage;
 
   // TS doesnt let me
   // export type Listen = actions["listen"];
