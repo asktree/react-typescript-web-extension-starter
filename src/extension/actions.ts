@@ -1,4 +1,4 @@
-import { TabSnapshot } from "@src/data/client";
+import TabSnapshot from "@src/data/TabSnapshot";
 import { browser } from "webextension-polyfill-ts";
 import * as T from "fp-ts/Task";
 

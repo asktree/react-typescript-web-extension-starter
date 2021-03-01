@@ -2,7 +2,7 @@ import { browser, Runtime } from "webextension-polyfill-ts";
 import { TabAction } from "./actions";
 import React, { FC, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import { TabSnapshot } from "@src/data/client";
+import TabSnapshot from "@src/data/TabSnapshot";
 import { absurd } from "fp-ts/lib/function";
 
 const Content: FC = () => {

@@ -1,6 +1,7 @@
 import { browser, Tabs } from "webextension-polyfill-ts";
 import { BackgroundAction, TabAction } from "./actions";
-import { TabSnapshot, UserData } from "@src/data/client";
+import { UserData } from "@src/data/client";
+import TabSnapshot from "@src/data/TabSnapshot";
 import { handle } from "@src/util";
 import * as T from "fp-ts/Task";
 import { flow, pipe } from "fp-ts/lib/function";

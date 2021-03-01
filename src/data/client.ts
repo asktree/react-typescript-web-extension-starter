@@ -1,12 +1,11 @@
-import { Tabs, browser } from "webextension-polyfill-ts";
+import { browser } from "webextension-polyfill-ts";
 import { uid } from "uid";
 import { add } from "date-fns";
 import { handle } from "@src/util";
-import { flow, pipe } from "fp-ts/function";
+import { flow } from "fp-ts/function";
 import * as TE from "fp-ts/lib/TaskEither";
 import * as T from "fp-ts/lib/Task";
-import * as A from "fp-ts/Array";
-import { TabAction } from "@src/extension/actions";
+import TabSnapshot from "./TabSnapshot";
 
 export type SchedulerInstructions =
   | {
@@ -15,29 +14,6 @@ export type SchedulerInstructions =
   | "none";
 
 export type History = [Date, any][];
-
-export namespace TabSnapshot {
-  export type t = Tabs.Tab & {
-    scrollPosition: [vertical: number, horizontal: number];
-  };
-
-  export const fromTab = async (tab: Tabs.Tab) => {
-    const info = await TabAction.send(tab.id as number, "GetScrollDepth");
-    const tabSnapshot: t = { ...tab, ...info };
-    return tabSnapshot;
-  };
-
-  export const getCurrent = async () =>
-    pipe(await browser.tabs.getCurrent(), TabSnapshot.fromTab);
-
-  const getAllTabsInWindow = async () =>
-    (await browser.tabs.query({ currentWindow: true })).filter(
-      (tab) => tab.id !== undefined
-    );
-
-  export const getAllInWindow = async () =>
-    pipe(await getAllTabsInWindow(), A.map(TabSnapshot.fromTab));
-}
 
 export namespace Item {
   export type t = {
