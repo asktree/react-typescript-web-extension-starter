@@ -1,28 +1,39 @@
 import { browser, Runtime } from "webextension-polyfill-ts";
-import { ContentScriptAction } from "./actions";
+import { TabAction } from "./actions";
 import React, { FC, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
+import { TabSnapshot } from "@src/data/client";
+import { absurd } from "fp-ts/lib/function";
 
 const Content: FC = () => {
   const [x, setX] = useState(1);
 
   useEffect(() => {
-    const listener = async (msg: ContentScriptAction) => {
+    const listener = async (msg: TabAction.Message) => {
       switch (msg) {
-        case "getScrollDepth": {
-          console.log("collecting info on this tab!");
+        case "GetScrollDepth": {
+          console.log("📨 collecting info on this tab!");
           return {
-            insert: {
-              scrollHeight: document.documentElement.scrollHeight,
-              scrollWidth: document.documentElement.scrollHeight,
-            },
+            scrollPosition: [
+              document.documentElement.scrollHeight,
+              document.documentElement.scrollWidth,
+            ],
           };
         }
+        case "GetHello": {
+          console.log("hello");
+          return "hello";
+        }
+        default:
+          return absurd(msg);
       }
     };
+
     browser.runtime.onMessage.addListener(listener);
+    // Clear our listener when this gets unmonted
     return () => browser.runtime.onMessage.removeListener(listener);
   }, []);
+
   return <></>;
 };
 

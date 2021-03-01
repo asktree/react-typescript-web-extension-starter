@@ -14,10 +14,9 @@ export type SchedulerInstructions =
 
 export type History = [Date, any][];
 
-interface TabSnapshot extends Tabs.Tab {
+export interface TabSnapshot extends Tabs.Tab {
   scrollPosition: [vertical: number, horizontal: number];
 }
-
 export namespace Item {
   export type t = {
     id: string;

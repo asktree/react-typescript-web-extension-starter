@@ -1,11 +1,7 @@
 import { browser } from "webextension-polyfill-ts";
-import { BackgroundAction, sendTabAction } from "./actions";
-
-const handle = (promise: Promise<any>) => {
-  return promise
-    .then((data) => [data, undefined])
-    .catch((error) => Promise.resolve([undefined, error]));
-};
+import { BackgroundAction, TabAction } from "./actions";
+import { TabSnapshot, UserData } from "@src/data/client";
+import { handle } from "@src/util";
 
 // Listen for messages sent from other parts of the extension
 browser.runtime.onMessage.addListener(async (action: BackgroundAction) => {
@@ -26,25 +22,10 @@ browser.runtime.onMessage.addListener(async (action: BackgroundAction) => {
         if (tab.id === undefined) {
           return;
         }
-        const [resp, respErr] = await handle(
-          sendTabAction(tab.id, "getScrollDepth")
-        );
-        if (respErr) throw new Error(JSON.stringify(respErr));
 
-        console.log(resp);
-        const prev = await browser.storage.sync.get();
-        const town = prev.town;
-        const next = {
-          town: {
-            residents: [...(town?.residents ?? []), { ...resp.insert, tab }],
-          },
-        };
-        console.log(next);
-        const [setTown, setTownErr] = await handle(
-          browser.storage.sync.set(next)
-        );
-        console.log(setTown);
-        if (setTownErr) throw new Error(JSON.stringify(setTownErr));
+        const info = await TabAction.send(tab.id, "GetScrollDepth")();
+
+        const tabSnapshot: TabSnapshot = { ...tab, ...info };
       });
     }
   }
