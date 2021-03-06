@@ -2,40 +2,46 @@ import { browser, Tabs } from "webextension-polyfill-ts";
 import { BackgroundAction, TabAction } from "./actions";
 import { UserData } from "@src/data/client";
 import TabSnapshot from "@src/data/TabSnapshot";
-import { handle } from "@src/util";
+import { handle, log, mapRight } from "@src/util";
 import * as T from "fp-ts/Task";
-import { flow, pipe } from "fp-ts/lib/function";
-import * as A from "fp-ts/lib/Array";
+import { flow, identity, pipe } from "fp-ts/lib/function";
+import * as E from "fp-ts/lib/Either";
+import * as A from "fp-ts/Array";
 
 // Listen for messages sent from other parts of the extension
 browser.runtime.onMessage.addListener(async (msg: BackgroundAction.Message) => {
   console.log(`recieved msg: ${msg}`);
   switch (msg) {
-    case "PopupMounted": {
+    case "PopupMounted":
       console.log("backgroundPage notified that Popup.tsx has mounted.");
-    }
-    case "MountToolBar": {
+      return;
+
+    case "MountToolBar":
       console.log("mounting toolbar...");
       browser.tabs.executeScript({
         file: "js/toolbar.js",
       });
-    }
-    case "IngestAllTabs": {
-      const tabSnapshots = await TabSnapshot.getAllInWindow();
-      const promises = tabSnapshots.map(async (tabSnapshot) =>
-        UserData.createItem([await tabSnapshot])
+      return;
+
+    case "IngestAllTabs":
+      return await pipe(
+        await TabSnapshot.query({ currentWindow: true }),
+        A.map((x) => UserData.createItem([x])),
+        Promise.all
       );
-      await Promise.all(promises);
-    }
-    case "IngestActiveTab": {
-      await pipe(await TabSnapshot.getCurrent(), A.of, UserData.createItem);
-    }
-    case "IngestWindow": {
-      // wow this is truly incredible code.
-      await pipe(
-        await Promise.all(await TabSnapshot.getAllInWindow()),
+
+    case "IngestActiveTab":
+      return await pipe(
+        await TabSnapshot.query({ currentWindow: true, active: true }),
+        log("ingesting active tab"),
         UserData.createItem
       );
-    }
+
+    case "IngestWindow":
+      return await pipe(
+        await TabSnapshot.query({ currentWindow: true }),
+        UserData.createItem
+      );
   }
 });
+const aaa = mapRight(UserData.createItem);

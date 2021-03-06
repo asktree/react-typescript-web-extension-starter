@@ -1,5 +1,4 @@
 import { BackgroundAction } from "@src/extension/actions";
-import { log } from "@src/util";
 import React, { FC } from "react";
 import { browser } from "webextension-polyfill-ts";
 

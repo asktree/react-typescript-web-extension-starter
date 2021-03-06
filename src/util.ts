@@ -1,15 +1,30 @@
+import { right, left, Either } from "fp-ts/lib/Either";
 import { browser } from "webextension-polyfill-ts";
 
-export const log = (...args: any[]) =>
+export const bgLog = (...args: any[]) =>
   ((browser.extension.getBackgroundPage() as unknown) as {
     console: Console;
   }).console.log(...args);
 
-export const handle = <T extends unknown>(promise: Promise<T>) => {
-  return promise
-    .then((data) => [data, undefined] as const)
-    .catch((error) => Promise.resolve([undefined, error] as const));
+/** pipeable console.log */
+export const log = (note: string) => <T extends any>(x: T) => {
+  console.log(note, x);
+  return x;
 };
+
+export const handle = async <T extends unknown>(promise: Promise<T>) => {
+  try {
+    const data = await promise;
+    return right(data);
+  } catch (err) {
+    return left(err);
+  }
+};
+
+export const mapRight = <A extends any, B extends any>(f: (a: A) => B) => (
+  x: Either<string, A>
+) => (x._tag === "Left" ? x : right(f(x.right)));
+
 export namespace Pwomise {
   export const map = <P extends any, T extends any>(f: (x: P) => T) => async (
     x: Promise<P>
@@ -34,3 +49,5 @@ export namespace Pwomise {
 
   export const all = <T extends any>(x: Promise<T>[]) => Promise.all(x);
 }
+
+const honk = (x: Promise<number>) => x.catch();
