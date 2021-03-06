@@ -5,14 +5,14 @@ import { Scroller } from "./Scroller";
 import "./styles.scss";
 import CleanTheSlate from "./CleanTheSlate";
 import ShowToolbar from "./ShowToolbar";
-import { sendAction } from "@src/extension/actions";
+import { BackgroundAction } from "@src/extension/actions";
 
 // // // //
 
 export const Popup: FunctionComponent = () => {
   // Sends the `popupMounted` event
   React.useEffect(() => {
-    sendAction("PopupMounted");
+    BackgroundAction.send("PopupMounted");
   }, []);
 
   // Renders the component tree
@@ -20,8 +20,6 @@ export const Popup: FunctionComponent = () => {
     <div className="popup-container">
       <div className="container mx-4 my-4">
         <Hello />
-        <hr />
-        <Scroller />
         <hr />
         <CleanTheSlate />
         <hr />

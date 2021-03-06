@@ -2,7 +2,7 @@ import { Tabs, browser } from "webextension-polyfill-ts";
 import { pipe, flow } from "fp-ts/function";
 import * as A from "fp-ts/Array";
 import { TabAction } from "@src/extension/actions";
-import { promiseMap } from "@src/util";
+import { Pwomise } from "@src/util";
 
 namespace TabSnapshot {
   export type t = Tabs.Tab & {
@@ -18,24 +18,29 @@ namespace TabSnapshot {
   };
 
   /** get a TabSnapshot for the current tab */
-  export const getCurrent = flow(
-    browser.tabs.getCurrent,
-    promiseMap(TabSnapshot.fromTab)
+  export const getCurrent2 = flow(
+    browser.tabs.getCurrent, // returns Promise<Tabs.Tab>
+    Pwomise.chain(TabSnapshot.fromTab) // fromTab is Tabs.Tab => Promise<TabSnapshot>
   );
 
-  const getAllTabsInWindow = async () =>
-    pipe(
-      browser.tabs.query({ currentWindow: true }),
-      promiseMap(A.filter((tab) => tab.id !== undefined))
-    );
+  export const getCurrent = () =>
+    browser.tabs.getCurrent().then(TabSnapshot.fromTab);
 
-  export const getAllInWindow = flow(
+  const getAllTabsInWindow = () =>
+    browser.tabs
+      .query({ currentWindow: true })
+      .then(A.filter((tab) => tab.id !== undefined));
+
+  export const getAllInWindow2 = flow(
     getAllTabsInWindow,
-    promiseMap(A.map(TabSnapshot.fromTab))
+    Pwomise.map(A.map(TabSnapshot.fromTab))
   );
+  export const getAllInWindow = () =>
+    getAllTabsInWindow().then(A.map(TabSnapshot.fromTab));
 
   export const restore = async (tab: t) => {
     browser.sessions.restore(tab.sessionId);
+    // todo: restore scrollPos
   };
 }
 
