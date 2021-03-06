@@ -86,11 +86,10 @@ export namespace Planner {
 
   export namespace Data {
     declare const peekNext: (planner: t) => Item.t;
-    declare const dismiss: 
   }
 
-  export namespace Interface { 
-    declare const done: () => {} 
-    declare const sleep: () => {}
+  export namespace Interface {
+    declare const done: () => {};
+    declare const sleep: () => {};
   }
 }
