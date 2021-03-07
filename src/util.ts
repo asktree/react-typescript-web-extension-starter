@@ -28,7 +28,7 @@ export const mapRight = <A extends any, B extends any>(f: (a: A) => B) => (
 export namespace Pwomise {
   export const map = <P extends any, T extends any>(f: (x: P) => T) => async (
     x: Promise<P>
-  ) => f(await x);
+  ): Promise<T> => f(await x);
 
   export const chain = <P extends any, T extends any>(
     f: (x: P) => Promise<T>
@@ -49,5 +49,3 @@ export namespace Pwomise {
 
   export const all = <T extends any>(x: Promise<T>[]) => Promise.all(x);
 }
-
-const honk = (x: Promise<number>) => x.catch();

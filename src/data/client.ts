@@ -40,19 +40,12 @@ export namespace Item {
 }
 
 export namespace UserData {
-  export type t = {
-    items: Record<string, Item.t>;
-  };
+  export type t = Record<string, Item.t>;
   export const get = () => browser.storage.sync.get() as Promise<t>;
-  export const set = (draft: t) => browser.storage.sync.set(draft);
+  export const put = (item: Item.t) =>
+    browser.storage.sync.set({ [item.id]: item });
 
-  export const insertItem = async (item: Item.t) => {
-    const draft = await get();
-    draft.items[item.id] = item;
-    return await set(draft);
-  };
-
-  export const createItem = flow(Item.make, log("storing item"), insertItem);
+  export const createItem = flow(Item.make, log("storing item"), put);
 }
 
 export namespace Planner {

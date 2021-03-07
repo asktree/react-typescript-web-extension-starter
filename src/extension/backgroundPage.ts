@@ -2,14 +2,15 @@ import { browser, Tabs } from "webextension-polyfill-ts";
 import { BackgroundAction, TabAction } from "./actions";
 import { UserData } from "@src/data/client";
 import TabSnapshot from "@src/data/TabSnapshot";
-import { handle, log, mapRight } from "@src/util";
+import { handle, log, mapRight, Pwomise } from "@src/util";
 import * as T from "fp-ts/Task";
 import { flow, identity, pipe } from "fp-ts/lib/function";
 import * as E from "fp-ts/lib/Either";
 import * as A from "fp-ts/Array";
 
 // Listen for messages sent from other parts of the extension
-browser.runtime.onMessage.addListener(async (msg: BackgroundAction.Message) => {
+
+const handler = async (msg: BackgroundAction.Message) => {
   console.log(`recieved msg: ${msg}`);
   switch (msg) {
     case "PopupMounted":
@@ -24,10 +25,11 @@ browser.runtime.onMessage.addListener(async (msg: BackgroundAction.Message) => {
       return;
 
     case "IngestAllTabs":
+      console.log("ingesting all tabs");
       return await pipe(
         await TabSnapshot.query({ currentWindow: true }),
         A.map((x) => UserData.createItem([x])),
-        Promise.all
+        Pwomise.all
       );
 
     case "IngestActiveTab":
@@ -43,5 +45,8 @@ browser.runtime.onMessage.addListener(async (msg: BackgroundAction.Message) => {
         UserData.createItem
       );
   }
-});
-const aaa = mapRight(UserData.createItem);
+};
+
+const catchErr = (x: Promise<any>) => x.then().catch(console.error);
+
+browser.runtime.onMessage.addListener(flow(handler, catchErr));
