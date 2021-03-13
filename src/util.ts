@@ -1,4 +1,7 @@
 import { right, left, Either } from "fp-ts/lib/Either";
+import { pipe } from "fp-ts/lib/function";
+import * as R from "remeda";
+import * as A from "fp-ts/Array";
 import { browser } from "webextension-polyfill-ts";
 
 export const bgLog = (...args: any[]) =>
@@ -48,4 +51,15 @@ export namespace Pwomise {
   ): Promise<T> => await x;
 
   export const all = <T extends any>(x: Promise<T>[]) => Promise.all(x);
+}
+
+export namespace Wecord {
+  export const values = <K extends string | number | symbol, V extends any>(
+    record: Record<K, V>
+  ) =>
+    pipe(
+      record,
+      R.toPairs,
+      A.map(([k, v]: [string, V]) => v)
+    );
 }

@@ -8,7 +8,8 @@ export namespace BackgroundAction {
     | "MountToolBar"
     | "IngestWindow"
     | "IngestActiveTab"
-    | "IngestAllTabs";
+    | "IngestAllTabs"
+    | "OpenNextItem";
 
   // This is how you change the state of the app
   export const send = (msg: Message) => browser.runtime.sendMessage(msg);

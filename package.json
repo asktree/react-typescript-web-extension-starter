@@ -83,7 +83,7 @@
   },
   "dependencies": {
     "@rescript/react": "^0.10.1",
-    "bootstrap": "^4.5.2",
+    "@types/sanctuary": "^3.0.3",
     "cypress": "^6.5.0",
     "date-fns": "^2.17.0",
     "fluture": "^13.0.1",
@@ -92,7 +92,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-test-renderer": "^16.13.1",
-    "sanctuary": "^3.1.0",
+    "remeda": "^0.0.27",
     "styled-components": "^5.2.1",
     "uid": "^2.0.0"
   }

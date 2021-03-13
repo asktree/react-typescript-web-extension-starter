@@ -1,10 +1,10 @@
 import { browser } from "webextension-polyfill-ts";
 import { uid } from "uid";
 import { add } from "date-fns";
-import { Pwomise } from "@src/util";
-import { flow } from "fp-ts/function";
+import { Pwomise, Wecord } from "@src/util";
+import { flow, pipe } from "fp-ts/function";
 import * as A from "fp-ts/Array";
-import * as R from "fp-ts/Record";
+import * as R from "remeda";
 import TabSnapshot from "./TabSnapshot";
 import { log } from "@src/util";
 
@@ -21,6 +21,7 @@ export namespace Item {
     id: string;
     tabs: TabSnapshot.t[];
     createdAt: Date;
+    lastSeen: Date;
     history: History;
     schedulerInstructions: SchedulerInstructions;
   };
@@ -28,6 +29,7 @@ export namespace Item {
     id: uid(),
     tabs,
     createdAt: new Date(),
+    lastSeen: new Date(),
     history: [],
     schedulerInstructions: "none",
   });
@@ -47,13 +49,24 @@ export namespace UserData {
 
   export const createItem = flow(Item.make, log("storing item"), put);
 }
-
 export namespace Planner {
-  declare type t = { focused: Item.t };
+  export type t = { focused: Item.t | "nothing" };
   declare const dismiss: () => 1;
+  // focus a tab:
+  //chrome.tabs.update(this.id, { active: true }, callback);
 
+  export const make = (): t => ({ focused: "nothing" });
   export namespace Data {
-    declare const peekNext: (planner: t) => Item.t;
+    export const peekNext = async (planner: t): Promise<Item.t> => {
+      const allItems = pipe(
+        await UserData.get(),
+        R.toPairs,
+        A.map(R.prop(1)),
+        A.filter((x) => x.lastSeen !== undefined),
+        R.sortBy(R.prop("lastSeen"))
+      );
+      return allItems[0];
+    };
   }
 
   export namespace Interface {

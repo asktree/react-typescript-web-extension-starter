@@ -5,7 +5,12 @@ import { TabAction } from "@src/extension/actions";
 import { Pwomise } from "@src/util";
 
 namespace TabSnapshot {
-  export type t = Tabs.Tab & {
+  export type t = Pick<
+    Tabs.Tab,
+    "favIconUrl" | "title" | "url" | "pinned" | "mutedInfo" | "lastAccessed"
+  > & {
+    title: string;
+    url: string;
     scrollPosition: [vertical: number, horizontal: number];
     //sessionId: string;
   };
@@ -13,9 +18,16 @@ namespace TabSnapshot {
   /** convert a Tab to a TabSnapshot */
   export const fromTab = async (tab: Tabs.Tab) => {
     if (tab.id === undefined) throw "tab has no id";
+    if (tab.title === undefined) throw "tab has no title";
+    if (tab.url === undefined) throw "tab has no url";
     const info = await TabAction.send(tab.id, "GetScrollDepth");
     const tabSnapshot: t = {
-      ...tab,
+      favIconUrl: tab.favIconUrl,
+      mutedInfo: tab.mutedInfo,
+      title: tab.title,
+      url: tab.url,
+      pinned: tab.pinned,
+      lastAccessed: tab.lastAccessed,
       //sessionId: tab.sessionId,
       ...info,
     };
@@ -30,8 +42,8 @@ namespace TabSnapshot {
       Pwomise.all
     );
 
-  export const restore = async (tab: t) => {
-    browser.sessions.restore(tab.sessionId);
+  export const restore = async (snapshot: t) => {
+    browser.tabs.create(snapshot);
     // todo: restore scrollPos
   };
 }

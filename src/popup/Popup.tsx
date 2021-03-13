@@ -6,6 +6,7 @@ import "./styles.scss";
 import CleanTheSlate from "./CleanTheSlate";
 import ShowToolbar from "./ShowToolbar";
 import { BackgroundAction } from "@src/extension/actions";
+import Controls from "./Controls";
 
 // // // //
 
@@ -23,7 +24,7 @@ export const Popup: FunctionComponent = () => {
         <hr />
         <CleanTheSlate />
         <hr />
-        <ShowToolbar />
+        <Controls />
       </div>
     </div>
   );

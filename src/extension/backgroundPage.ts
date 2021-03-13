@@ -4,7 +4,7 @@ import { UserData } from "@src/data/client";
 import TabSnapshot from "@src/data/TabSnapshot";
 import { handle, log, mapRight, Pwomise } from "@src/util";
 import * as T from "fp-ts/Task";
-import { flow, identity, pipe } from "fp-ts/lib/function";
+import { absurd, flow, identity, pipe } from "fp-ts/lib/function";
 import * as E from "fp-ts/lib/Either";
 import * as A from "fp-ts/Array";
 
@@ -44,6 +44,12 @@ const handler = async (msg: BackgroundAction.Message) => {
         await TabSnapshot.query({ currentWindow: true }),
         UserData.createItem
       );
+
+    case "OpenNextItem":
+      return;
+
+    default:
+      absurd(msg);
   }
 };
 
