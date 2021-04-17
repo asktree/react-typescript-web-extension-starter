@@ -29,9 +29,9 @@ export const mapRight = <A extends any, B extends any>(f: (a: A) => B) => (
 ) => (x._tag === "Left" ? x : right(f(x.right)));
 
 export namespace Pwomise {
-  export const map = <P extends any, T extends any>(f: (x: P) => T) => async (
-    x: Promise<P>
-  ): Promise<T> => f(await x);
+  export const map = <A extends any, B extends any>(f: (x: A) => B) => async (
+    x: Promise<A>
+  ): Promise<B> => f(await x);
 
   export const chain = <P extends any, T extends any>(
     f: (x: P) => Promise<T>
@@ -50,7 +50,8 @@ export namespace Pwomise {
     x: nestedPromise<T>
   ): Promise<T> => await x;
 
-  export const all = <T extends any>(x: Promise<T>[]) => Promise.all(x);
+  export const all = <T extends any>(x: readonly Promise<T>[]) =>
+    Promise.all(x);
 }
 
 export namespace Wecord {

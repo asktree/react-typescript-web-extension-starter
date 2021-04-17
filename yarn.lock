@@ -10122,6 +10122,11 @@ querystring@0.2.0, querystring@^0.2.0:
   resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
   integrity sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA=
 
+rambdax@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/rambdax/-/rambdax-7.2.0.tgz#f2632cb96a89d330d05fa41b488c12185b46001a"
+  integrity sha512-l1r7tYf/oRIpCiw1BJB7kSYl9i7H4tJheKbnWq95DM83Q4CazmRYJ+WM/VRaffr09yvMCdgeF4n6Ya4uWBe/Aw==
+
 ramda@^0.21.0:
   version "0.21.0"
   resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.21.0.tgz#a001abedb3ff61077d4ff1d577d44de77e8d0a35"
@@ -10716,11 +10721,6 @@ relateurl@^0.2.7:
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/relateurl/-/relateurl-0.2.7.tgz#54dbf377e51440aca90a4cd274600d3ff2d888a9"
   integrity sha1-VNvzd+UUQKypCkzSdGANP/LYiKk=
-
-remeda@^0.0.27:
-  version "0.0.27"
-  resolved "https://registry.yarnpkg.com/remeda/-/remeda-0.0.27.tgz#5924d656c5f8e9c7c692324cd7f4c43ce8552997"
-  integrity sha512-nkQnPLMXtSirvF8OxjuvbZhwBawDD6ZQAvg7hiq4/nZEFIgB4u80fS/NUm6PMJgSUfwfzQ6ZwVyVn8DTJcmkCw==
 
 remove-trailing-separator@^1.0.1:
   version "1.1.0"

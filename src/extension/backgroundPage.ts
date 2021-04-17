@@ -1,6 +1,6 @@
 import { browser, Tabs } from "webextension-polyfill-ts";
 import { BackgroundAction, TabAction } from "./actions";
-import { UserData } from "@src/data/client";
+import { App, UserData } from "@src/data/client";
 import TabSnapshot from "@src/data/TabSnapshot";
 import { handle, log, mapRight, Pwomise } from "@src/util";
 import * as T from "fp-ts/Task";
@@ -45,8 +45,11 @@ const handler = async (msg: BackgroundAction.Message) => {
         UserData.createItem
       );
 
-    case "OpenNextItem":
-      return;
+    case "PlannerSnooze":
+      return await App.snooze(await App.get())();
+
+    case "PlannerDone":
+      return await App.done(await App.get())();
 
     default:
       absurd(msg);
@@ -56,3 +59,6 @@ const handler = async (msg: BackgroundAction.Message) => {
 const catchErr = (x: Promise<any>) => x.then().catch(console.error);
 
 browser.runtime.onMessage.addListener(flow(handler, catchErr));
+browser.commands.onCommand.addListener(
+  flow((x) => x as BackgroundAction.Message, handler, catchErr)
+);

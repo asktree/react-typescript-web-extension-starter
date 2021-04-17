@@ -23,5 +23,22 @@
           "js": ["js/content.js"]
         }
       ],
-    "options_page": "options.html"
+    "options_page": "options.html",
+    "commands": {
+        "PlannerSnooze": {
+            "suggested_key": {
+                    "default": "Alt+Shift+S"
+            }
+        },
+        "PlannerDone": {
+            "suggested_key": {
+                    "default": "Alt+Shift+D"
+            }
+        },
+        "PlannerUndo": {
+            "suggested_key": {
+                    "default": "Alt+Shift+A"
+            }
+        }
+    }
 }
